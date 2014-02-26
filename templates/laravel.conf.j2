@@ -1,0 +1,57 @@
+# NOTE: Assumes the existence of a conf directory with a php.conf inside if
+#       check https://gist.github.com/Mulkave/6053040 (Mulkave/nginx-php.conf)
+
+server {
+
+    listen       80;
+    server_name  {{app.domains}};
+    root {{app.public_path}};
+
+    #charset koi8-r;
+
+    access_log  /var/log/nginx/{{item}}.access.log;
+    error_log /var/log/nginx/{{item}}.error.log;
+
+    location / {
+        index index.php index.html index.htm;
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /fonts/* {
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location ~* \.(ttf|eot|woff)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
+
+    location ~* \.(jpg|jpeg|gif|css|png|js|ico|html|ttf|eot|woff)$ {
+        access_log off;
+        log_not_found off;
+
+        # Cache control
+        expires max;
+        add_header Cache-Control private;
+    }
+
+    location ~ \..*/.*\.php$ {
+        # This is to keep people away from listing other PHP files
+        return 403;
+    }
+
+    location /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    # proxy the PHP scripts to FPM
+    location ~ \.php$ {
+       include php.conf;
+    }
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    location ~ /\.ht {
+       deny  all;
+    }
+}

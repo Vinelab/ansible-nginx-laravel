@@ -1,0 +1,21 @@
+---
+- name: add nginx release repo
+  shell: rpm -Uvh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm creates=/etc/yum.repos.d/nginx.repo
+  tags: nginx
+
+- name: install nginx
+  yum: name=nginx state=present
+  tags: nginx
+
+- name: add nginx php configuration
+  template: src=php.conf.j2 dest=/etc/nginx/php.conf
+
+- name: configure nginx
+  template: src=laravel.conf.j2 dest=/etc/nginx/conf.d/{{item}}.conf
+  with_items: hosts
+  notify: reload nginx
+  tags: nginx
+
+- name: run nginx
+  service: name=nginx state=running
+  tags: nginx
