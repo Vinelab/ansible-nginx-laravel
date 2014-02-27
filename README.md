@@ -1,4 +1,5 @@
 # Ansible NGINX - Laravel
+Install nginx and configure it for the [Laravel Framework](http://laravel.com) on Centos/Red Hat
 
 ## Installation
 Clone this repository inside your ```roles``` directory
