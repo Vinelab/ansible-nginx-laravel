@@ -9,10 +9,11 @@
 
 - name: add nginx php configuration
   template: src=php.conf.j2 dest=/etc/nginx/php.conf
+  tags: nginx
 
 - name: configure nginx
-  template: src=laravel.conf.j2 dest=/etc/nginx/conf.d/{{item}}.conf
-  with_items: hosts
+  template: src=laravel.conf.j2 dest=/etc/nginx/conf.d/{{item.title}}.conf
+  with_items: app.sites
   notify: reload nginx
   tags: nginx
 
