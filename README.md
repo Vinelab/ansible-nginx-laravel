@@ -21,6 +21,7 @@ vars:
         domains: www.another-site.url another-site.url cdn.another-site.url
         path: /home/another-site
         public_path: /home/another-site/public
+
 ````
 
 > you may also specify ```app:``` in a separate YAML file and include it in ```vars_files```
