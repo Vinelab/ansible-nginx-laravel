@@ -19,5 +19,5 @@
   tags: nginx
 
 - name: run nginx
-  service: name=nginx state=running
+  service: name=nginx state=running enabled=yes
   tags: nginx
