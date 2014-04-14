@@ -11,7 +11,15 @@
   template: src=php.conf.j2 dest=/etc/nginx/php.conf
   tags: nginx
 
+- name: backup default nginx configuration
+  shell: cp /etc/nginx/nginx.conf /etc/nginx/default.nginx.conf creates=/etc/nginx/default.nginx.conf
+  tags: nginx
+
 - name: configure nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  tags: nginx
+
+- name: add sites configuration
   template: src=laravel.conf.j2 dest=/etc/nginx/conf.d/{{item.title}}.conf
   with_items: nginx.sites
   notify:

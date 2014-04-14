@@ -3,11 +3,7 @@
 
 server {
 
-    {% if item.listen is defined %}
-    listen {{item.listen}};
-    {% else %}
-    listen 80;
-    {% endif %}
+    listen {{ item.listen if item.listen is defined else 80}};
 
     server_name  {{item.domains}};
 
@@ -60,4 +56,5 @@ server {
     location ~ /\.ht {
        deny  all;
     }
+
 }
