@@ -1,0 +1,10 @@
+# NOTE: make sure the 'include' directive is correct according to your nginx installation
+# NOTE: make sure the fastcgi_pass is running on the correct socket
+#       might need to change it to http://127.0.0.1:9000 with default php-fpm configuration
+
+try_files                 $uri =404;
+fastcgi_pass              unix:/var/run/php-fpm/php-fpm.sock;
+fastcgi_index             index.php;
+fastcgi_param             SCRIPT_FILENAME $document_root$fastcgi_script_name;
+fastcgi_intercept_errors  on;
+include                   /etc/nginx/fastcgi_params;
