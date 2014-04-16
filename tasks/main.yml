@@ -18,6 +18,8 @@
 - name: configure nginx
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
   tags: nginx
+  notify:
+    - reload nginx
 
 - name: add sites configuration
   template: src=laravel.conf.j2 dest=/etc/nginx/conf.d/{{item.title}}.conf
